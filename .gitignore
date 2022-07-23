@@ -32,3 +32,4 @@
 # MacOS files
 *.DS_Store
 
+CMakeFiles
