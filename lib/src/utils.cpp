@@ -56,13 +56,8 @@ void Utilities::initSIFT_GPU()
 
     pCreateNewSiftGPU = (SiftGPU* (*) (int)) GET_MYPROC(hsiftgpu, "CreateNewSiftGPU");
     pCreateNewSiftMatchGPU = (SiftMatchGPU* (*)(int)) GET_MYPROC(hsiftgpu, "CreateNewSiftMatchGPU");
-
-    printf("DEBUG0"); fflush(stdout);
     sift = pCreateNewSiftGPU(1);
-    printf("DEBUG1");fflush(stdout);
     matcher = pCreateNewSiftMatchGPU(4096);
-
-    printf("DEBUG2");fflush(stdout);
 
     char * argv[] = {(char*)"-fo", (char*)"-1", (char*) "-v",(char*) "1", (char*)"-winpos",(char*)"-maxd", (char*)"1024", (char*)"-cuda"};
     int argc = sizeof(argv)/sizeof(char*);
@@ -70,14 +65,12 @@ void Utilities::initSIFT_GPU()
     sift->ParseParam(argc, argv);
     //verbose on sift to remove unwanted printouts (put 1 for data)
     sift->SetVerbose(0);
-    printf("DEBUG3");fflush(stdout);
 
     if(sift->CreateContextGL() != SiftGPU::SIFTGPU_FULL_SUPPORTED)
         fprintf(stdout,"boh, some error\n");
 
     matcher->VerifyContextGL();
     writeS=false;
-    printf("DEBUG4");fflush(stdout);
 }
 
 /************************************************************************/
