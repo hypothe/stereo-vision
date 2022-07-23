@@ -35,7 +35,7 @@ FILE(GLOB SRC_FILES *.cpp)
 FILE(GLOB CUDA_FILES *.cu)
 FILE(GLOB HDR_FILES *.h*)
 
-set(CUDA_NVCC_FLAGS "-ccbin gcc-7")
+#set(CUDA_NVCC_FLAGS "-ccbin gcc-7") # <-- this would override the one set in the main makefile
 
 
 set(
@@ -47,7 +47,7 @@ set(
 #	-gencode arch=compute_35,code=sm_35
 #	-gencode arch=compute_50,code=[sm_50,compute_50]
 #	-gencode arch=compute_52,code=[sm_52,compute_52]
-        -gencode arch=compute_61,code=sm_61
+#        -gencode arch=compute_61,code=sm_61
 #	-gencode arch=compute_62,code=sm_62
 #	-G
 )
