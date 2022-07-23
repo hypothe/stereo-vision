@@ -70,7 +70,10 @@ endif()
 add_library(${PROJECT_NAME} ${folder_source} ${folder_source_elas} ${folder_header})
 
 if(OpenCV_VERSION_MAJOR GREATER 2)
-  target_compile_definitions(${PROJECT_NAME} PRIVATE OPENCV_GREATER_2)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE OPENCV_GREATER_2)
+    if(OpenCV_VERSION_MINOR GREATER_EQUAL 4)
+        target_compile_definitions(${PROJECT_NAME} PRIVATE OPENCV_GREATER_EQUAL_3_4)
+    endif()
 endif()
 
 if(USE_SIFT_GPU)

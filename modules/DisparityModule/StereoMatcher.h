@@ -11,6 +11,7 @@
 #include "sgbm_cuda_header.h"
 
 #include "opencv2/ximgproc/disparity_filter.hpp"
+#include <opencv2/cudastereo.hpp>
 
 /**
 * Auxiliary function used for the WLS filtering stage
@@ -130,7 +131,7 @@ private:
     // fields used for the SGBM implementation in CUDA
 
     cv::cuda::GpuMat imageGpu, gpuDisp, filtGpu;
-    Ptr<cuda::DisparityBilateralFilter> pCudaBilFilter;
+    Ptr<cv::cuda::DisparityBilateralFilter> pCudaBilFilter;
     SGM_PARAMS cuda_params, params_right;
 
     // stereo matching parameters

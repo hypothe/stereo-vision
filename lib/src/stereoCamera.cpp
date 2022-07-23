@@ -771,6 +771,17 @@ Mat StereoCamera::findMatch(bool visualize, double displacement, double radius)
     Mat descriptors1,descriptors2;
 
 #ifdef OPENCV_GREATER_2
+    #ifdef OPENCV_GREATER_EQUAL_3_4 // SIFT moved into the main libraries when the patent expired
+    Ptr<SIFT> sift=SIFT::create();
+    yAssert(sift!=NULL);
+
+    sift->detect(grayleft,keypoints1);
+    sift->compute(grayleft,keypoints1,descriptors1);
+
+    sift->detect(grayright,keypoints2);
+    sift->compute(grayright,keypoints2,descriptors2);
+
+    #else
     Ptr<xfeatures2d::SIFT> sift=xfeatures2d::SIFT::create();
     yAssert(sift!=NULL);
 
@@ -779,6 +790,7 @@ Mat StereoCamera::findMatch(bool visualize, double displacement, double radius)
 
     sift->detect(grayright,keypoints2);
     sift->compute(grayright,keypoints2,descriptors2);
+    #endif
 #else
     Ptr<cv::FeatureDetector> detector=cv::FeatureDetector::create("SIFT");
     Ptr<cv::DescriptorExtractor> descriptorExtractor=cv::DescriptorExtractor::create("SIFT");
