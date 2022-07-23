@@ -18,10 +18,10 @@ list(APPEND CMAKE_MODULE_PATH ${ICUB_MODULE_PATH}
                               ${ICUBCONTRIB_MODULE_PATH}
                               ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-#set(USE_SIFT_GPU FALSE CACHE BOOL "Select false to run without GPU, or true for GPU acceleration")
-#if(USE_SIFT_GPU)
-#    find_package(SIFTGPU REQUIRED)
-#endif()
+set(USE_SIFT_GPU FALSE CACHE BOOL "Select false to run without GPU, or true for GPU acceleration")
+if(USE_SIFT_GPU)
+    find_package(SIFTGPU REQUIRED)
+endif()
 
 include(ICUBcontribHelpers)
 include(ICUBcontribOptions)

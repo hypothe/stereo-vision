@@ -18,17 +18,7 @@
 #include <iostream>
 #include <string>
 
-#include <yarp/sig/Image.h>
-#include <yarp/os/BufferedPort.h>
-#include <yarp/os/RFModule.h>
-#include <yarp/os/Network.h>
-#include <yarp/os/Time.h>
-#include <yarp/os/Stamp.h>
-#include <cv.h>
-#include <highgui.h>
-
 #include <iCub/stereoVision/utils.h>
-
 
 using namespace std;
 using namespace cv;
@@ -48,19 +38,31 @@ void Utilities::initSIFT_GPU()
     SiftGPU* (*pCreateNewSiftGPU)(int) = NULL;
     SiftMatchGPU* (*pCreateNewSiftMatchGPU)(int) = NULL;
 
-    char * pPath;
-    pPath = getenv ("SIFTGPU_DIR");
-    printf ("\n\nThe current path is: %s\n\n",pPath);
+    // char * pPath;
+    // pPath = SIFTGPU_DIR; // getenv ("SIFTGPU_DIR");
+    // printf ("\n\nThe current path is: %s\n\n",pPath);
 
-    std::string str = pPath;
+    std::string str = string(SIFTGPU_DIR);
+    printf ("\n\nThe current path is: %s\n\n",str.c_str());
+
     str.append("/bin/libsiftgpu.so");
+    dlerror(); // clear error
     hsiftgpu = dlopen(str.c_str(), RTLD_LAZY);
+    char* err = dlerror();
+    if (err != NULL)
+    {
+        printf("An error occured in opening the SIFTGPU_DIR %s", err);
+    }
 
     pCreateNewSiftGPU = (SiftGPU* (*) (int)) GET_MYPROC(hsiftgpu, "CreateNewSiftGPU");
     pCreateNewSiftMatchGPU = (SiftMatchGPU* (*)(int)) GET_MYPROC(hsiftgpu, "CreateNewSiftMatchGPU");
+
+    printf("DEBUG0"); fflush(stdout);
     sift = pCreateNewSiftGPU(1);
+    printf("DEBUG1");fflush(stdout);
     matcher = pCreateNewSiftMatchGPU(4096);
 
+    printf("DEBUG2");fflush(stdout);
 
     char * argv[] = {(char*)"-fo", (char*)"-1", (char*) "-v",(char*) "1", (char*)"-winpos",(char*)"-maxd", (char*)"1024", (char*)"-cuda"};
     int argc = sizeof(argv)/sizeof(char*);
@@ -68,12 +70,14 @@ void Utilities::initSIFT_GPU()
     sift->ParseParam(argc, argv);
     //verbose on sift to remove unwanted printouts (put 1 for data)
     sift->SetVerbose(0);
+    printf("DEBUG3");fflush(stdout);
 
     if(sift->CreateContextGL() != SiftGPU::SIFTGPU_FULL_SUPPORTED)
         fprintf(stdout,"boh, some error\n");
 
     matcher->VerifyContextGL();
     writeS=false;
+    printf("DEBUG4");fflush(stdout);
 }
 
 /************************************************************************/

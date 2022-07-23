@@ -28,8 +28,9 @@
 #include <yarp/os/Network.h>
 #include <yarp/os/Time.h>
 #include <yarp/os/Stamp.h>
-#include <cv.h>
-#include <highgui.h>
+#include <opencv2/opencv.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/core/types_c.h>
 
 #include "GL/gl.h"
 #if !defined(SIFTGPU_STATIC) && !defined(SIFTGPU_DLL_RUNTIME)
