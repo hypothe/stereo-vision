@@ -11,24 +11,24 @@ endif(COMMAND cmake_policy)
 project(stereo-vision)
 
 find_package(ICUBcontrib REQUIRED)
-find_package(YARP 3.5.1 COMPONENTS os sig dev math cv rosmsg idl_tools REQUIRED)
+find_package(YARP 3.7 COMPONENTS os sig dev math cv rosmsg idl_tools REQUIRED)
 find_package(ICUB REQUIRED)
 
 list(APPEND CMAKE_MODULE_PATH ${ICUB_MODULE_PATH}
                               ${ICUBCONTRIB_MODULE_PATH}
                               ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-
+                              
+include(ICUBcontribHelpers)
+include(ICUBcontribOptions)
+icubcontrib_set_default_prefix()
+                              
+find_package(OpenCV REQUIRED)
 set(USE_SIFT_GPU FALSE CACHE BOOL "Select false to run without GPU, or true for GPU acceleration")
 if(USE_SIFT_GPU)
     find_package(SIFTGPU REQUIRED)
 endif()
 
-include(ICUBcontribHelpers)
-include(ICUBcontribOptions)
-icubcontrib_set_default_prefix()
-
 ## locate OpenCV libraries
-find_package(OpenCV REQUIRED)
 
 set(COMPILE_LIB FALSE CACHE BOOL "Select false not to compile library")
 
